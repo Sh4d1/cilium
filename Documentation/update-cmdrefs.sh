@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x
+
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -17,5 +19,11 @@ generators=(
 )
 
 for g in "${generators[@]}" ; do
+    (
+      set +o errexit
+      bin="${source_dir}/${g/%\ */}"
+      ls -la "${bin}"
+      ls -la "$(dirname "${bin}")"
+    )
     ${source_dir}/${g} "${cmdref_dir}"
 done
